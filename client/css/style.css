@@ -1,0 +1,28 @@
+html {
+	height: 100vh;
+}
+
+body {
+	background: -webkit-linear-gradient(bottom, #e1eec3, #f05053);
+	background: -o-linear-gradient(bottom, #e1eec3, #f05053);
+	background: linear-gradient(to top, #e1eec3, #f05053);
+}
+
+h1 {
+	text-align: center;
+	color: #FFF;
+}
+
+p {
+	color: #FFF;
+}
+
+.eleve{
+	color:red;
+}
+.display{
+	visibility: hidden;
+}
+.display.show{
+	visibility: visible;
+}

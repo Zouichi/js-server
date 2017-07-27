@@ -1,3 +1,5 @@
+// Start MongoDB : start mongod.exe --dbpath "/c/Users/ELEVE/Desktop/Développement/mongodata/db"
+
 var express = require('express');
 var bodyParser= require('body-parser');
 var mongoose = require('mongoose');
@@ -20,10 +22,10 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.set('views', './views');
-
 app.set('view engine', 'jade');
-
 app.use('/js', express.static('./client/js'));
+app.use('/css', express.static('./client/css'));
+
 
 app.get('/', function (req, res) {
       res.sendFile(__dirname + '/client/index.html')
