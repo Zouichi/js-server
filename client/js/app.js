@@ -1,7 +1,6 @@
 var data = [];
 var marequete = new XMLHttpRequest();
 
-
 marequete.open('GET', "http://localhost:3000/api/liste", true);
 marequete.send();
 marequete.addEventListener("readystatechange", processRequest, false);
@@ -13,11 +12,11 @@ function processRequest(event) {
     if (marequete.readyState == 4 && marequete.status == 200) {
         var mareponseText = marequete.responseText;
         mareponseText = JSON.parse(mareponseText);
-        mareponseText.forEach(function(eleve) {
+        data = mareponseText;
+        data.forEach(function(eleve) {
             bindList(eleve);
 
         });
-        data = mareponseText;
     }
 
 }
@@ -41,7 +40,7 @@ function bindList(eleve) {
 
     addBtnProfile(monLi);
     addBtnDelete(monLi);
-    addBtnEdit(monLi);
+    // addBtnEdit(monLi);
 
     monUl.appendChild(monLi);
 }
@@ -89,9 +88,7 @@ function detectClick(event) {
 function submitForm(event) {
     console.log("submitted");
     var monForm = document.getElementById("newUser").elements;
-    var newUser = {
-        id: data.length + 1
-    };
+    var newUser = {};
     console.log(typeof monForm);
     _.forIn(monForm, function(item) {
         console.log(item);
@@ -99,10 +96,18 @@ function submitForm(event) {
 
     });
     console.log(newUser);
-    data.push(newUser);
-    bindList(newUser);
-    console.log(data);
-
+    // data.push(newUser);
+    // bindList(newUser);
+    // console.log(data);
+    var postUser = new XMLHttpRequest();
+    postUser.open('POST', "http://localhost:3000/new", true);
+    postUser.setRequestHeader("Content-type", "application/json");
+    postUser.onreadystatechange = function() {
+        if(postUser.readyState == XMLHttpRequest.DONE && postUser.status == 200) {
+            console.log('req ok');
+        }
+    }
+    postUser.send(JSON.stringify(newUser));
 };
 
 function deleteEleve(event) {
@@ -113,7 +118,7 @@ function deleteEleve(event) {
     var myTarget = event.target.parentNode.parentNode;
     console.log(myTarget);
     var eleveId = myTarget.getAttribute("data-ideleve");
-    console.log(eleveId)
+    console.log(eleveId);
     var myIndex = data.findIndex(function(i) {
         return i.id === eleveId
     });
@@ -121,20 +126,20 @@ function deleteEleve(event) {
     removeElem(myTarget);
 };
 
-function editEleve(event) {
-    console.log("edit");
-    document.getElementById("myForm").classList.toggle("show");
-    var myTarget = event.target.parentNode.parentNode;
-    console.log(myTarget);
-    var eleveId = myTarget.getAttribute("data-idEleve");
-    console.log(eleveId);
-    var myIndex = data.findIndex(function(i) {
-        return i._id === eleveId;
-    });
-    console.log(myIndex);
-    var monForm = document.getElementById("newUser").elements;
-    _.forIn(monForm, function(item) {
-        item.value = data[myIndex][item.name];
-    });
+// function editEleve(event) {
+//     console.log("edit");
+//     document.getElementById("myForm").classList.toggle("show");
+//     var myTarget = event.target.parentNode.parentNode;
+//     console.log(myTarget);
+//     var eleveId = myTarget.getAttribute("data-idEleve");
+//     console.log(eleveId);
+//     var myIndex = data.findIndex(function(i) {
+//         return i._id === eleveId;
+//     });
+//     console.log(myIndex);
+//     var monForm = document.getElementById("newUser").elements;
+//     _.forIn(monForm, function(item) {
+//         item.value = data[myIndex][item.name];
+//     });
 
-};
+// };

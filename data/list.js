@@ -12,7 +12,7 @@ const srcListe = [
    "contact_mail": "boiteux.remi@gmail.com"
  },
  {
-   "nom": "Dos Santos",
+   "nom": "DOS SANTOS",
    "prenom": "Christophe",
    "javascript": "Pas d'expérience",
    "fav_web": "behance / themeforest",

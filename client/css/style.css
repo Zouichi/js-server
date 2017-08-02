@@ -3,9 +3,7 @@ html {
 }
 
 body {
-	background: -webkit-linear-gradient(bottom, #e1eec3, #f05053);
-	background: -o-linear-gradient(bottom, #e1eec3, #f05053);
-	background: linear-gradient(to top, #e1eec3, #f05053);
+	background-color: #add8e6;
 }
 
 h1 {

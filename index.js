@@ -10,16 +10,26 @@ var promise = mongoose.connect('mongodb://localhost:27017/ifa', {
   useMongoClient: true,
 });
 
-promise.then(function(db) {
-  console.log('db.connected');
-	app.listen(3000, function() {
-	console.log('listening on 3000 and database is connected');
-  });
-});
+promise.then(
+    () => {
+        console.log('db.connected');
+        // je démarre mon serveur node sur le port 3000
+        app.listen(3000, function() {
+            console.log('listening on 3000 and database is connected');
+        });
+    },
+    err => {
+        console.log('MONGO ERROR');
+        console.log(err);
+    }
+
+);
 
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
+app.use(bodyParser.json());
 
 app.set('views', './views');
 app.set('view engine', 'jade');
@@ -29,6 +39,10 @@ app.use('/css', express.static('./client/css'));
 
 app.get('/', function (req, res) {
       res.sendFile(__dirname + '/client/index.html')
+});
+
+app.get('/profil', function(req, res) {
+    res.sendFile(__dirname + '/client/profil.html')
 });
 
 app.get('/api/liste', function(req, res) {
@@ -68,6 +82,19 @@ app.post('/quotes', function(req, res) {
         nom: req.body.nom,
         prenom: req.body.prenom
     };
+    res.send(200);
+
+});
+
+app.post('/new', function(req, res) {
+    // console.log(req);
+    console.log(req.body);
+    console.log("my name is " + req.body.nom);
+    // console.log("my name is " + req.body.nom);
+    // var newUser = {
+    //     nom: req.body.nom,
+    //     prenom: req.body.prenom
+    // };
     res.send(200);
 
 });
