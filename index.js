@@ -95,27 +95,80 @@ app.post('/new', function(req, res) {
     //     nom: req.body.nom,
     //     prenom: req.body.prenom
     // };
-    res.send(200);
+    var eleveToSave = new Eleve(req.body);
 
+    eleveToSave.save(function(err, success){
+            if(err){
+                return console.log(err);
+            }
+            else{
+                console.log(success);
+                res.send(success);
+
+            }
+        });
+    
 });
 
-app.get('/api/liste/jade/:id', function(req, res) {
-    console.log(req.params);
-    console.log(req.params.id);
-    Eleve.findOne({
-        "_id": req.params.id
-    }, function(err, monobject) {
-        if (err) {
+app.post('/api/delete', function(req, res) {
+    console.log(req.body);
+    Eleve.findByIdAndRemove(req.body.id,function(err, response){
+        if(err){
             console.log(err);
-            return res.send(err);
-        } else {
-            return res.render('profil', {
-                title: 'Hey',
-                nom: monobject.nom,
-                prenom: monobject.prenom
-            });
-           
+        }
+        else{
+            console.log(response);
+            console.log("deleted");
+            res.send(200);
+
         }
     });
+    // console.log("my name is " + req.body.nom);
+    // var newUser = {
+    //     nom: req.body.nom,
+    //     prenom: req.body.prenom
+    // };
+
+    
+});
+
+app.put('/api/edit/:id', function(req, res) {
+    console.log(req.params);
+    console.log(req.body);
+    console.log(req.params.id);
+    // Eleve.update({
+    //     "_id": req.params.id
+    // },req.body,function(err, response){
+    //     if(err){
+    //         console.log(err);
+    //     }
+    //     if(response){
+    //         console.log(response);
+    //         res.send(200);
+    //     }
+    Eleve.findByIdAndUpdate(req.params.id,req.body, { new: true }, function (err, updatedEleve) {
+      if (err) return handleError(err);
+      console.log(updatedEleve);
+      res.status(200).send(updatedEleve);
+    });
+
+// app.get('/api/liste/jade/:id', function(req, res) {
+//     console.log(req.params);
+//     console.log(req.params.id);
+//     Eleve.findOne({
+//         "_id": req.params.id
+//     }, function(err, monobject) {
+//         if (err) {
+//             console.log(err);
+//             return res.send(err);
+//         } else {
+//             return res.render('profil', {
+//                 title: 'Hey',
+//                 nom: monobject.nom,
+//                 prenom: monobject.prenom
+//             });
+           
+//         }
+//     });
 
 });
